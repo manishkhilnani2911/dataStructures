@@ -18,8 +18,10 @@ class BST
     public:
         BST() : root(NULL) {}
         node* addNode(node* root, int val);
+        bool search(node* root, int val);
         void inOrder(node*);
         inline node* getRoot () { return root; }
+        bool deleteNode(node* root, int val);
 };
 
 //1.if root is null tree is empty add node to root
@@ -38,6 +40,7 @@ BST::addNode(node* root, int val)
     return root;
 }
 
+//go left, process the node(print value), go right
 void
 BST::inOrder(node* root) 
 {
@@ -48,6 +51,19 @@ BST::inOrder(node* root)
     inOrder(root->right);
 }    
 
+bool
+BST::search(node* root, int val)
+{
+    if (root == NULL)
+        return false;
+    if (root->data == val) {
+        return true;
+    } else if (val > root->data) {
+        return search(root->right, val);
+    } else
+        return search(root->left, val);
+}
+
 int main()
 {
     BST* tree = new BST;
@@ -57,6 +73,12 @@ int main()
     tree->addNode(root,8);
     tree->addNode(root, 1);
     tree->addNode(root, 4);
+    tree->addNode(root, 20);
+    tree->addNode(root, 15);
+    tree->addNode(root, 6);
     tree->inOrder(root);
+    std::cout<<"\n";
+    std::cout<<tree->search(root, 4)<<"\n";
+    std::cout<<tree->search(root, 6)<<"\n";
     return 0;
 }
